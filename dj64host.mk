@@ -2,6 +2,7 @@ DJHOSTLDFLAGS = $(shell pkg-config --libs dj64host) $(LDFLAGS)
 DJHOSTLIB = libhost.so
 TMPL2 = hosttmp_o_elf
 HASM = hosttmp.s
+HELF = hosttmp.o
 
 # https://unix.stackexchange.com/a/516476/93040
 define _script2
@@ -34,5 +35,9 @@ $(HASM):
 $(DJHOSTLIB): $(OBJECTS)
 	$(LD) $^ $(DJLDFLAGS) -o $@
 
-host.elf: $(DJHOSTLIB) $(XELF)
-	$(LD) $(XELF) $(DJHOSTLDFLAGS) -o $@
+$(HELF): $(DJHOSTLIB) $(HASM)
+
+host.elf: $(XELF) $(HELF)
+	$(LD) $^ $(DJHOSTLDFLAGS) -o $@
+
+.INTERMEDIATE: $(DJHOSTLIB) $(HASM) $(HELF)
