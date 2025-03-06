@@ -1,0 +1,13 @@
+prefix := @prefix@
+exec_prefix := @exec_prefix@
+libdir := @libdir@
+datarootdir := @datarootdir@
+datadir := @datadir@
+includedir := @includedir@
+
+CC := @CC@
+INSTALL := @INSTALL@
+
+CFLAGS := @CFLAGS@
+CPPFLAGS := @CPPFLAGS@
+LDFLAGS := @LDFLAGS@

@@ -1,0 +1,6 @@
+Name: dj64host
+Description: dj64 host-based compilation
+Version: @VERSION@
+prefix=@prefix@
+Cflags:
+Libs: ${prefix}/lib/dj64-host/loader.o -rdynamic -Wl,--wrap=main -ldosemu2
