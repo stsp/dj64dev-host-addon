@@ -9,5 +9,6 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 AC_CHECK_HEADERS([dosemu2/emu.h],, AC_MSG_ERROR([dosemu2 headers missins]))
+CFLAGS="$CFLAGS -Wall"
 
 AC_OUTPUT
