@@ -57,6 +57,7 @@ int __wrap_main(int argc, char **argv, char * const *envp)
 #define DEF_HANDLE 0
 #define DEF_LIBID 3
     dj64init2_t *i2;
+    char *ar0;
     void *dlh;
     char *argv0[] = { argv[0], NULL };
 
@@ -75,5 +76,14 @@ int __wrap_main(int argc, char **argv, char * const *envp)
     dosemu2_set_elfload_type(2);
     dosemu2_set_elfload_args(argc, argv);
     dosemu2_set_exit_after_load();
+    ar0 = argc ? strdup(argv[0]) : NULL;
+    if (ar0) {
+        char *p = strrchr(ar0, '/');
+        if (p) {
+            *p = '\0';
+            dosemu2_set_unix_path(ar0);
+        }
+        free(ar0);
+    }
     return dosemu2_emulate(argc ? 1 : 0, argv0, envp);
 }
