@@ -69,6 +69,16 @@ static void *bootstrap(void)
     return dlh;
 }
 
+int dj64_startup_hook(int argc, char **argv)
+{
+    int (*m)(int, char **) = dlsym(RTLD_DEFAULT, "main");
+    if (!m) {
+        printf("error: can't find \"main\"\n");
+        return -1;
+    }
+    return m(argc, argv);
+}
+
 int __wrap_main(int argc, char **argv, char * const *envp)
 {
 #define DEF_HANDLE 0
