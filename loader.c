@@ -25,7 +25,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <dosemu2/emu.h>
-#include "djdev64/dj64init.h"
 
 static char shname[128];
 
@@ -84,6 +83,7 @@ int __wrap_main(int argc, char **argv, char * const *envp)
 {
 #define DEF_HANDLE 0
 #define DEF_LIBID 3
+    typedef void (dj64init2_t)(int handle, int disp_id);
     dj64init2_t *i2;
     char *ar0;
     void *dlh;
