@@ -1,0 +1,21 @@
+Source: dj64-host
+Section: devel
+Priority: optional
+Maintainer: Stas Sergeev <stsp@users.sourceforge.net>
+Standards-Version: 3.9.7
+Build-Depends:
+    autoconf,
+    automake,
+    make,
+    gcc,
+    pkgconf,
+    dosemu2-dev,
+    debhelper (>= 9~)
+Homepage: https://github.com/stsp/dj64dev-host-addon
+
+Package: dj64-host
+Architecture: any
+# Note: ${shlibs:Depends} doesn't work as there are no elf binaries in package
+Depends: ${misc:Depends}, dosemu2-dev
+Description: dj64dev host addon
+ Host build support for dj64dev.
