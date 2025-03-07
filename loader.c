@@ -39,7 +39,7 @@ static void *bootstrap(void)
     char *eend = dlsym(RTLD_DEFAULT, "_binary_hosttmp_o_elf_end");
     size_t sz = eend - estart;
     char buf2[256];
-    int fd;
+    int fd, err;
     void *addr, *dlh = NULL;
 
     if (!estart || !eend)
@@ -50,7 +50,12 @@ static void *bootstrap(void)
         perror("shm_open()");
         return NULL;
     }
-    ftruncate(fd, sz);
+    err = ftruncate(fd, sz);
+    if (err) {
+        close(fd);
+        perror("ftruncate()");
+        return NULL;
+    }
     addr = mmap(NULL, sz, PROT_WRITE, MAP_SHARED, fd, 0);
     close(fd);
     if (addr == MAP_FAILED) {
