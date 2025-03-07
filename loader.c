@@ -76,6 +76,7 @@ int dj64_startup_hook(int argc, char **argv)
         printf("error: can't find \"main\"\n");
         return -1;
     }
+    dosemu2_render_enable();
     return m(argc, argv);
 }
 
@@ -87,6 +88,7 @@ int __wrap_main(int argc, char **argv, char * const *envp)
     char *ar0;
     void *dlh;
     char *argv0[] = { argv[0], NULL };
+    char title[128];
 
     dlh = bootstrap();
     if (!dlh) {
@@ -103,11 +105,16 @@ int __wrap_main(int argc, char **argv, char * const *envp)
     dosemu2_set_elfload_type(2);
     dosemu2_set_elfload_args(argc, argv);
     dosemu2_set_exit_after_load();
+    dosemu2_set_boot_cls();
+    dosemu2_render_disable();
+    dosemu2_xtitle_disable();
     ar0 = argc ? strdup(argv[0]) : NULL;
     if (ar0) {
         char *p = strrchr(ar0, '/');
         if (p) {
-            *p = '\0';
+            *p++ = '\0';
+            snprintf(title, sizeof(title), "dj64dev - %s", p);
+            dosemu2_set_window_title(title);
             dosemu2_set_unix_path(ar0);
         }
         free(ar0);
