@@ -1,0 +1,53 @@
+#
+# spec file for package dj64dev
+#
+
+Name: dj64-host
+Version: {{{ git_dir_version }}}
+Release: 1%{?dist}
+Summary: dj64dev host addon
+
+Group: Development/Libraries
+
+License: GPLv3+
+URL: https://github.com/stsp/dj64dev-host-addon
+VCS: {{{ git_dir_vcs }}}
+Source0: {{{ git_dir_archive }}}
+
+BuildRequires: autoconf
+BuildRequires: make
+BuildRequires: gcc
+BuildRequires: pkgconf-pkg-config
+BuildRequires: dosemu2-devel
+
+%description
+Host build support for dj64dev.
+%end
+
+%prep
+{{{ git_dir_setup_macro }}}
+%end
+
+%build
+autoreconf -v -i
+%configure
+make
+%end
+
+%check
+%end
+
+%install
+make install DESTDIR=%{buildroot}
+%end
+
+%files
+%defattr(-,root,root)
+%{_libdir}/dj64-host/loader.o
+%{_datadir}/dj64-extras/dj64host.mk
+%{_datadir}/pkgconfig/dj64host.pc
+%end
+
+%changelog
+{{{ git_dir_changelog }}}
+%end

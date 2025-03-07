@@ -33,3 +33,7 @@ uninstall:
 	$(RM) $(DESTDIR)$(datadir)/pkgconfig/dj64host.pc
 	$(RM) -r $(DESTDIR)$(MKDIR)
 	$(RM) -r $(DESTDIR)$(ODIR)
+
+rpm:
+	make clean
+	rpkg local && $(MAKE) clean >/dev/null
