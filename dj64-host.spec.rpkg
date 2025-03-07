@@ -32,11 +32,13 @@ Host build support for dj64dev.
 %build
 autoreconf -v -i
 %configure
-make
+make %{?_smp_mflags}
 %end
 
 %check
 %end
+
+%define debug_package %{nil}
 
 %install
 make install DESTDIR=%{buildroot}
