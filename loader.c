@@ -137,10 +137,12 @@ int __wrap_main(int argc, char **argv, char * const *envp)
 
     dosemu2_set_elfload_type(2);
     dosemu2_set_elfload_args(argc, argv);
-    dosemu2_set_exit_after_load();
-    dosemu2_set_boot_cls();
-    dosemu2_set_blind_boot();
-    dosemu2_render_disable();
+    if (!getenv("DJ64_DEBUG_MODE")) {
+        dosemu2_set_exit_after_load();
+        dosemu2_set_boot_cls();
+        dosemu2_set_blind_boot();
+        dosemu2_render_disable();
+    }
     dosemu2_xtitle_disable();
     dosemu2_set_init_hook(de2_init_hook, NULL);
     if (!getenv("DJ64_GUI_MODE"))
