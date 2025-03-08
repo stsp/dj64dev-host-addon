@@ -119,7 +119,7 @@ int __wrap_main(int argc, char **argv, char * const *envp)
 
     dlh = bootstrap();
     if (!dlh) {
-        printf("error: can't open libtmp.so\n");
+        printf("error: ELF bootstrap failed\n");
         return -1;
     }
     i2 = dlsym(dlh, "dj64init2");
