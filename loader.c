@@ -27,6 +27,9 @@
 #include <pthread.h>
 #include <dosemu2/emu.h>
 
+extern void *dj64_dl_handle_self;
+void *dj64_dl_handle_self;
+
 static char shname[128];
 static pthread_t logo_thr;
 
@@ -76,10 +79,11 @@ static void *bootstrap(void)
     memcpy(addr, estart, sz);
     snprintf(buf2, sizeof(buf2), "/dev/shm%s", shname);
 #ifdef RTLD_DEEPBIND
-    dlh = dlopen(buf2, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND);
+    dlh = dlopen(buf2, RTLD_LOCAL | RTLD_NOW | RTLD_DEEPBIND);
     if (!dlh)
         printf("error loading %s: %s\n", shname, dlerror());
 #endif
+    dj64_dl_handle_self = dlh;
     munmap(addr, sz);
     /* don't unlink right here as that confuses gdb */
     atexit(_ex);
@@ -88,7 +92,7 @@ static void *bootstrap(void)
 
 int dj64_startup_hook(int argc, char **argv)
 {
-    int (*m)(int, char **) = dlsym(RTLD_DEFAULT, "main");
+    int (*m)(int, char **) = dlsym(dj64_dl_handle_self, "main");
     if (!m) {
         printf("error: can't find \"main\"\n");
         return -1;
