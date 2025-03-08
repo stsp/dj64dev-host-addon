@@ -66,6 +66,8 @@ static void *bootstrap(void)
     snprintf(buf2, sizeof(buf2), "/dev/shm%s", shname);
 #ifdef RTLD_DEEPBIND
     dlh = dlopen(buf2, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND);
+    if (!dlh)
+        printf("error loading %s: %s\n", shname, dlerror());
 #endif
     munmap(addr, sz);
     /* don't unlink right here as that confuses gdb */
