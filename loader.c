@@ -24,9 +24,20 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <dosemu2/emu.h>
 
 static char shname[128];
+static pthread_t logo_thr;
+
+static void *logo_thread(void *arg)
+{
+    while (1) {
+        fprintf(stderr, ".");
+        usleep(200000);
+    }
+    return NULL;
+}
 
 static void _ex(void)
 {
@@ -82,8 +93,17 @@ int dj64_startup_hook(int argc, char **argv)
         printf("error: can't find \"main\"\n");
         return -1;
     }
+
+    pthread_cancel(logo_thr);
+    pthread_join(logo_thr, NULL);
+    fprintf(stderr, "done\n");
     dosemu2_render_enable();
     return m(argc, argv);
+}
+
+void de2_init_hook(void *arg)
+{
+    pthread_create(&logo_thr, NULL, logo_thread, NULL);
 }
 
 int __wrap_main(int argc, char **argv, char * const *envp)
@@ -113,8 +133,10 @@ int __wrap_main(int argc, char **argv, char * const *envp)
     dosemu2_set_elfload_args(argc, argv);
     dosemu2_set_exit_after_load();
     dosemu2_set_boot_cls();
+    dosemu2_set_blind_boot();
     dosemu2_render_disable();
     dosemu2_xtitle_disable();
+    dosemu2_set_init_hook(de2_init_hook, NULL);
     ar0 = argc ? strdup(argv[0]) : NULL;
     if (ar0) {
         char *p = strrchr(ar0, '/');
@@ -126,5 +148,6 @@ int __wrap_main(int argc, char **argv, char * const *envp)
         }
         free(ar0);
     }
+    fprintf(stderr, "Loading dj64dev runtime");
     return dosemu2_emulate(argc ? 1 : 0, argv0, envp);
 }
