@@ -29,6 +29,8 @@
 
 extern void *dj64_dl_handle_self;
 void *dj64_dl_handle_self;
+extern int dj64_elfexec_version;
+int dj64_elfexec_version = 2;
 
 static char shname[128];
 static pthread_t logo_thr;
