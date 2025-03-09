@@ -85,7 +85,6 @@ static void *bootstrap(void)
     if (!dlh)
         printf("error loading %s: %s\n", shname, dlerror());
 #endif
-    dj64_dl_handle_self = dlh;
     munmap(addr, sz);
     /* don't unlink right here as that confuses gdb */
     atexit(_ex);
@@ -134,6 +133,7 @@ int __wrap_main(int argc, char **argv, char * const *envp)
         return -1;
     }
     i2(DEF_HANDLE, DEF_LIBID);
+    dj64_dl_handle_self = dlh;
 
     dosemu2_set_elfload_type(2);
     dosemu2_set_elfload_args(argc, argv);
