@@ -51,15 +51,15 @@ static void _ex(void)
 
 static void *bootstrap(void)
 {
-    char *estart = dlsym(RTLD_DEFAULT, "_binary_hosttmp_o_elf_start");
-    char *eend = dlsym(RTLD_DEFAULT, "_binary_hosttmp_o_elf_end");
+    extern char _binary_hosttmp_o_elf_start[];
+    extern char _binary_hosttmp_o_elf_end[];
+    const char *estart = _binary_hosttmp_o_elf_start;
+    const char *eend = _binary_hosttmp_o_elf_end;
     size_t sz = eend - estart;
     char buf2[256];
     int fd, err;
     void *addr, *dlh = NULL;
 
-    if (!estart || !eend)
-        return NULL;
     snprintf(shname, sizeof(shname), "/libhost_%i.so", getpid());
     fd = shm_open(shname, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR);
     if (fd == -1) {
