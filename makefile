@@ -37,3 +37,6 @@ uninstall:
 rpm:
 	make clean
 	rpkg local && $(MAKE) clean >/dev/null
+
+deb:
+	debuild -i -us -uc -b && $(MAKE) clean >/dev/null
