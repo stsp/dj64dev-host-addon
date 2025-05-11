@@ -3,6 +3,7 @@ DJHOSTLIB = libhost.so
 TMPL2 = hosttmp_o_elf
 HASM = hosttmp.s
 HELF = hosttmp.o
+DJ64HOST_OUTPUT ?= host.elf
 
 # https://unix.stackexchange.com/a/516476/93040
 define _script2
@@ -37,7 +38,7 @@ $(DJHOSTLIB): $(OBJECTS)
 
 $(HELF): $(DJHOSTLIB) $(HASM)
 
-host.elf: $(XELF) $(HELF)
+$(DJ64HOST_OUTPUT): $(XELF) $(HELF)
 	$(LD) $^ $(DJHOSTLDFLAGS) -o $@
 
 .INTERMEDIATE: $(DJHOSTLIB) $(HASM) $(HELF)
