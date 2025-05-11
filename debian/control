@@ -6,8 +6,6 @@ Standards-Version: 3.9.7
 Build-Depends:
     autoconf,
     automake,
-    make,
-    gcc,
     pkgconf,
     dosemu2-dev,
     debhelper (>= 9~)
