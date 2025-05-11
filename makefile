@@ -24,13 +24,13 @@ $(HOSTCRT0): loader.c Makefile.conf
 install:
 	$(INSTALL) -d $(DESTDIR)$(ODIR)
 	$(INSTALL) -m 0644 $(HOSTCRT0) $(DESTDIR)$(ODIR)
-	$(INSTALL) -d $(DESTDIR)$(datadir)/pkgconfig
-	$(INSTALL) -m 0644 dj64host.pc $(DESTDIR)$(datadir)/pkgconfig
+	$(INSTALL) -d $(DESTDIR)$(libdir)/pkgconfig
+	$(INSTALL) -m 0644 dj64host.pc $(DESTDIR)$(libdir)/pkgconfig
 	$(INSTALL) -d $(DESTDIR)$(MKDIR)
 	$(INSTALL) -m 0644 dj64host.mk $(DESTDIR)$(MKDIR)
 
 uninstall:
-	$(RM) $(DESTDIR)$(datadir)/pkgconfig/dj64host.pc
+	$(RM) $(DESTDIR)$(libdir)/pkgconfig/dj64host.pc
 	$(RM) -r $(DESTDIR)$(MKDIR)
 	$(RM) -r $(DESTDIR)$(ODIR)
 
