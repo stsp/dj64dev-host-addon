@@ -48,7 +48,7 @@ make install DESTDIR=%{buildroot}
 %defattr(-,root,root)
 %{_libdir}/dj64-host/loader.o
 %{_datadir}/dj64-extras/dj64host.mk
-%{_datadir}/pkgconfig/dj64host.pc
+%{_libdir}/pkgconfig/dj64host.pc
 %end
 
 %changelog
