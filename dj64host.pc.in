@@ -2,6 +2,7 @@ Name: dj64host
 Description: dj64 host-based compilation
 Version: @VERSION@
 prefix=@prefix@
-makeinc=@datadir@/dj64-extras/dj64host.mk
+exec_prefix=@exec_prefix@
+makeinc=@datarootdir@/dj64-extras/dj64host.mk
 Cflags:
 Libs: @libdir@/dj64-host/loader.o -rdynamic -Wl,--wrap=main -ldosemu2
