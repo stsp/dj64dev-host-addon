@@ -147,6 +147,10 @@ int __wrap_main(int argc, char **argv, char * const *envp)
     dosemu2_set_init_hook(de2_init_hook, NULL);
     if (!getenv("DJ64_GUI_MODE"))
         dosemu2_set_terminal_mode();
+    if (getenv("DJ64_DUMB_VIDEO")) {
+        dosemu2_set_dumb_video_mode();
+        dosemu2_set_quiet_boot();
+    }
     ar0 = argc ? strdup(argv[0]) : NULL;
     if (ar0) {
         char *p = strrchr(ar0, '/');
